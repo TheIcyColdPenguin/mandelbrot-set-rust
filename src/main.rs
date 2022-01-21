@@ -1,3 +1,5 @@
+#![windows_subsystem = "windows"]
+
 use opengl_graphics::OpenGL;
 
 use piston_window::{PistonWindow, WindowSettings};
