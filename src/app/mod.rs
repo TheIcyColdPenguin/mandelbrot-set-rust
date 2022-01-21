@@ -84,12 +84,16 @@ impl App {
 
             // use inputs
             if let Some(args) = event.button_args() {
-                self.manage_input(args);
-                self.draw();
+                let updated = self.manage_input(args);
+                if updated {
+                    self.draw();
+                }
             }
             if let Some(args) = event.mouse_relative_args() {
-                self.manage_pan(args);
-                self.draw();
+                let updated = self.manage_pan(args);
+                if updated {
+                    self.draw();
+                }
             }
         }
     }
