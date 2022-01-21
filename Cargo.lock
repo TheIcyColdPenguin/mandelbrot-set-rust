@@ -790,12 +790,9 @@ version = "0.1.0"
 dependencies = [
  "gfx_device_gl",
  "image",
- "piston",
  "piston2d-graphics",
  "piston2d-opengl_graphics",
  "piston_window",
- "pistoncore-glutin_window",
- "vecmath",
 ]
 
 [[package]]
