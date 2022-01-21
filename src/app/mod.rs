@@ -2,7 +2,7 @@ mod draw;
 mod input;
 mod util;
 
-use crate::types::{App, Innards};
+use crate::types::{App, Complex, Innards};
 
 use ::image::ImageBuffer;
 use piston_window::{
@@ -25,6 +25,11 @@ impl App {
 
         App {
             is_moving: false,
+            is_mandelbrot_set: true,
+            julia_pos: Complex {
+                real: 0.0,
+                imag: 0.0,
+            },
             resolution_scale: 30,
             zoom: 7,
             area: None,
@@ -68,9 +73,7 @@ impl App {
 
             // Mouse Clicked
             if let Some(button) = event.press_args() {
-                if button == Button::Mouse(MouseButton::Left) {
-                    self.is_moving = true;
-                }
+                self.manage_mouse_click(button);
             };
 
             // Mouse Released
@@ -81,21 +84,21 @@ impl App {
             };
 
             // only redraw when cursor is moved
-            if let Some(_) = event.mouse_cursor_args() {
-                self.draw();
+            if let Some(pos) = event.mouse_cursor_args() {
+                self.draw(Some(pos));
             }
 
             // use inputs
             if let Some(args) = event.button_args() {
                 let updated = self.manage_input(args);
                 if updated {
-                    self.draw();
+                    self.draw(None);
                 }
             }
             if let Some(args) = event.mouse_relative_args() {
                 let updated = self.manage_pan(args);
                 if updated {
-                    self.draw();
+                    self.draw(None);
                 }
             }
         }

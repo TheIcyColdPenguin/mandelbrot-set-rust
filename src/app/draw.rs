@@ -5,7 +5,7 @@ use crate::types::{App, Complex};
 use ::image::Rgba;
 
 impl App {
-    pub fn draw(&mut self) {
+    pub fn draw(&mut self, pos: Option<[f64; 2]>) {
         let (width, height) = self.get_size();
 
         let area = self.area.unwrap_or_else(|| self.calc_world_size());
@@ -17,12 +17,26 @@ impl App {
         };
         let canvas = &mut self.innards.canvas;
 
+        // only update julia pos when not drawing the julia set
+        if pos.is_some() && self.is_mandelbrot_set {
+            let pos = pos.unwrap();
+
+            self.julia_pos = screen_to_cart(pos.into(), (width as u32, height as u32), &area)
+        }
+
         for x in (0..(width - res_scale + 1)).step_by(res_scale as usize) {
             for y in (0..(height - res_scale + 1)).step_by(res_scale as usize) {
-                let temp_col = dist_to_inf(
-                    &screen_to_cart((x, y).into(), (width, height), &area),
-                    &zero,
-                );
+                let temp_col = if self.is_mandelbrot_set {
+                    dist_to_inf(
+                        &screen_to_cart((x, y).into(), (width, height), &area),
+                        &zero,
+                    )
+                } else {
+                    dist_to_inf(
+                        &self.julia_pos,
+                        &screen_to_cart((x, y).into(), (width, height), &area),
+                    )
+                };
 
                 let col = COLORS[(temp_col % COLORS.len() as u64) as usize];
 

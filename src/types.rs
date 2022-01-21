@@ -1,5 +1,5 @@
 use image::{ImageBuffer, Rgba};
-use piston_window::{G2dTexture, PistonWindow, TextureContext};
+use piston_window::{keyboard::ModifierKey, G2dTexture, PistonWindow, TextureContext};
 
 #[derive(Debug, Clone, Copy)]
 pub struct Point {
@@ -12,6 +12,15 @@ impl From<(u32, u32)> for Point {
         Point {
             x: point.0 as f64,
             y: point.1 as f64,
+        }
+    }
+}
+
+impl From<[f64; 2]> for Point {
+    fn from(point: [f64; 2]) -> Point {
+        Point {
+            x: point[0],
+            y: point[1],
         }
     }
 }
@@ -62,6 +71,8 @@ pub struct Innards {
 
 pub struct App {
     pub is_moving: bool,
+    pub is_mandelbrot_set: bool,
+    pub julia_pos: Complex,
     pub resolution_scale: u8,
     pub zoom: i8,
     pub area: Option<Area>,

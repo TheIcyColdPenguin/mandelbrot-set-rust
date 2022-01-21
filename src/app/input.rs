@@ -1,9 +1,22 @@
 use crate::helpers::linear_to_log;
 use crate::types::{App, Area, Point};
 
-use piston_window::{Button, ButtonArgs, ButtonState, Key};
+use piston_window::{keyboard::ModifierKey, Button, ButtonArgs, ButtonState, Key, MouseButton};
 
 impl App {
+    pub fn manage_mouse_click(&mut self, button: Button) -> bool {
+        if button == Button::Mouse(MouseButton::Left) {
+            if self.modifiers.contains(ModifierKey::SHIFT) {
+                self.is_mandelbrot_set = false;
+            } else {
+                self.is_moving = true;
+            }
+            true
+        } else {
+            false
+        }
+    }
+
     pub fn manage_input(&mut self, args: ButtonArgs) -> bool {
         if args.state != ButtonState::Press {
             return false;
@@ -29,6 +42,7 @@ impl App {
                     self.resolution_scale = (10 - (x as u8 - 0x30)) * 2;
                 }
                 Key::D9 => self.resolution_scale = 1,
+                Key::M => self.is_mandelbrot_set = true,
                 _ => return false,
             }
         }
