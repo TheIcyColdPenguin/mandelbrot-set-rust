@@ -34,7 +34,6 @@ impl App {
                 texture_context,
                 canvas,
             },
-            // zoom: 7,
         }
     }
 
