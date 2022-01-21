@@ -6,9 +6,9 @@ use crate::types::{App, Innards};
 
 use ::image::ImageBuffer;
 use piston_window::{
-    Button, ButtonEvent, Event, EventSettings, Events, G2dTexture, MouseButton, MouseCursorEvent,
-    MouseRelativeEvent, PistonWindow, PressEvent, ReleaseEvent, RenderEvent, Size, Texture,
-    TextureContext, TextureSettings, Window,
+    keyboard::ModifierKey, Button, ButtonEvent, Event, EventSettings, Events, G2dTexture,
+    MouseButton, MouseCursorEvent, MouseRelativeEvent, PistonWindow, PressEvent, ReleaseEvent,
+    RenderEvent, Size, Texture, TextureContext, TextureSettings, Window,
 };
 
 impl App {
@@ -28,6 +28,7 @@ impl App {
             resolution_scale: 30,
             zoom: 7,
             area: None,
+            modifiers: ModifierKey::NO_MODIFIER,
             innards: Innards {
                 window,
                 texture,
@@ -58,6 +59,8 @@ impl App {
         let mut events = Events::new(EventSettings::new());
 
         while let Some(event) = events.next(&mut self.innards.window) {
+            self.modifiers.event(&event);
+
             // render out the drawn canvas
             if let Some(_) = event.render_args() {
                 self.render(&event);

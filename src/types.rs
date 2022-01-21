@@ -65,5 +65,6 @@ pub struct App {
     pub resolution_scale: u8,
     pub zoom: i8,
     pub area: Option<Area>,
+    pub modifiers: ModifierKey,
     pub innards: Innards,
 }
