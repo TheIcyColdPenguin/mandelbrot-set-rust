@@ -17,6 +17,14 @@ impl App {
         }
     }
 
+    pub fn manage_scroll(&mut self, scroll: [f64; 2]) {
+        if scroll[1] > 0.0 {
+            self.set_zoom(self.zoom + 1);
+        } else {
+            self.set_zoom(self.zoom - 1);
+        }
+    }
+
     pub fn manage_input(&mut self, args: ButtonArgs) -> bool {
         if args.state != ButtonState::Press {
             return false;

@@ -7,8 +7,8 @@ use crate::types::{App, Complex, Innards};
 use ::image::ImageBuffer;
 use piston_window::{
     keyboard::ModifierKey, Button, ButtonEvent, Event, EventSettings, Events, G2dTexture,
-    MouseButton, MouseCursorEvent, MouseRelativeEvent, PistonWindow, PressEvent, ReleaseEvent,
-    RenderEvent, Size, Texture, TextureContext, TextureSettings, Window,
+    MouseButton, MouseCursorEvent, MouseRelativeEvent, MouseScrollEvent, PistonWindow, PressEvent,
+    ReleaseEvent, RenderEvent, Size, Texture, TextureContext, TextureSettings, Window,
 };
 
 impl App {
@@ -86,6 +86,12 @@ impl App {
             // only redraw when cursor is moved
             if let Some(pos) = event.mouse_cursor_args() {
                 self.draw(Some(pos));
+            }
+
+            // zoom on scroll
+            if let Some(scroll) = event.mouse_scroll_args() {
+                self.manage_scroll(scroll);
+                self.draw(None);
             }
 
             // use inputs
