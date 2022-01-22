@@ -14,7 +14,7 @@ use types::App;
 fn main() {
     let opengl = OpenGL::V4_1;
 
-    let window: PistonWindow = WindowSettings::new("Mandelbrot", [500, 500])
+    let window: PistonWindow = WindowSettings::new("Mandelbrot", [1000, 700])
         .exit_on_esc(true)
         .fullscreen(true)
         .vsync(true)
